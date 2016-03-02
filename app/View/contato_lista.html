@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 ">
+            <h1> Lista de contato </h1>
+        </div>
+
+        <div class="col-xs-10 col-xs-offset-1 special-margin">
+            <a href="{{url}}/contato/novo" class="btn btn-info btn-block text-center">Novo Contato</a>
+        </div>
+    </div>
+    <div class="row">
+
+        {% include 'messages.html' %}
+        <div class="col-xs-12 col-sm-12 ">
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
+                {% for cont in contatos%}
+                <tr>
+                    <td>{{cont.nome}}</td>
+                    <td>
+                        <button type="button" class="btn btn-default btn-sm get_contato" id="{{cont.id_contato}}" data-toggle="modal" data-target="#get_contato">
+                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Detalhes
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+
+        </div>
+        <div class="col-xs-8 col-xs-offset-4 ">
+            <nav >
+                <ul class="pagination center-block">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% for i in range(1,paginas)%}
+                    <li><a href="{{url}}/contato/lista/pagina/{{i}}">{{i}}</a></li>
+                    {% endfor %}
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="get_contato" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="detalheLabel">Detalhes</h4>
+      </div>
+      <div class="modal-body">
+          {% include 'contato_form.html' %}
+      </div>
+      <div class="modal-footer">
+        <a type="button" href="" class="btn btn-default " id="btn-editar">Editar</a>
+        <button type="button" class="btn btn-primary"  data-dismiss="modal">fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+
+$('.get_contato').click(function(){
+    var data = {id:this.id};
+    $.ajax({
+         url: "{{url}}/api/contato/detalhe",
+         data: data,
+         method: "POST",
+
+    }).done(function(data){
+        data = JSON.parse(data);
+        $('#nome').html(data.nome);
+        $('#btn-editar').attr('href','{{url}}/contato/editar/'+data.id_contato);
+
+        console.log(data.contato_telefone);
+
+        var newLine = function(table_class,col1,col2){
+            var table = $(table_class);
+            var tr,td,p;
+            tr = $('<tr></tr>');
+            td = $('<td></td>');
+            p = $('<p></p>').html(col1);
+            p.appendTo(td);
+            td.appendTo(tr);
+            td = $('<td></td>');
+            p = $('<p></p>').html(col2);
+            p.appendTo(td);
+            td.appendTo(tr);
+            tr.appendTo(table);
+        }
+        $('.table_email').children('tbody').html('');
+        $('.table_telefone').children('tbody').html('');
+        var email,telefone;
+        for(i=0;i<data.contato_email.length;i++){
+            email = data.contato_email[i];
+            newLine('.table_email',email.email,email.tipo.nome)
+        }
+        for(i=0;i<data.contato_telefone.length;i++){
+            telefone = data.contato_telefone[i];
+            newLine('.table_telefone',telefone.telefone,telefone.tipo.nome)
+        }
+    });
+});
+</script>
+{% endblock %}
+
+{% block css %}
+<style>
+.special-margin{margin-top: 15px;margin-bottom: 10px}
+</style>
+{% endblock %}

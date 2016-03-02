@@ -1,0 +1,99 @@
+<form method="post" action="save">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Nome</label>
+        {% if is_set is defined %}
+        <input type="text" name="nome" class="form-control" id="exampleInputEmail1">
+        {% else %}
+        <h4 id="nome"></h4>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="Name">Emails
+            {% if is_set is defined %}
+            <button type="button" class="btn btn-success add_email"> adicionar email </button>
+            {% endif %}
+        </label>
+        <div class="table-responsive">
+        <table class="table table-striped table_email">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Tipo</th>
+                    {% if is_set is defined %}
+                    <th>ação</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        {% if is_set is defined %}
+                        <input type="email" name="email[]" />
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if is_set is defined %}
+                        <select name="emailTipo[]" class="">
+                            <option> - </option>
+                            {% for tipo in emailTipo %}
+                                <option value="{{tipo.id_contato_email_tipo}}">{{tipo.nome}}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Name">Telefone
+            {% if is_set is defined %}
+            <button type="button" class="btn btn-success add_telefone"> adicionar Telefone </button>
+            {% endif %}
+        </label>
+        <div class="table-responsive">
+        <table class="table table-striped table_telefone">
+            <thead>
+            <tr>
+                <th>Telefone</th>
+                <th>Tipo</th>
+                {% if is_set is defined %}
+                <th>ação</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    {% if is_set is defined %}
+                        <input type="text" name="telefone[]" />
+                    {% else %}
+                        <p id="telefone"></p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if is_set is defined %}
+                    <select name="telefoneTipo[]" class="">
+                        <option> - </option>
+                        {% for tipo in telefoneTipo %}
+                            <option value="{{tipo.id_contato_telefone_tipo}}">{{tipo.nome}}</option>
+                        {% endfor %}
+                    </select>
+                    {% else %}
+                        <p id="telefone_tipo"></p>
+                    {% endif %}
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+        </table>
+        </div>
+    </div>
+
+    {% if is_set is defined %}
+    <button type="submit" class="btn btn-primary">Submit</button>
+    {% endif %}
+</form>

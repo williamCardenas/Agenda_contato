@@ -1,0 +1,8 @@
+<div class="col-xs-12 col-sm-12 special-margin">
+    {% if sucess|length > 0 %}
+        <div class="alert alert-success" role="alert">{{sucess}}</div>
+    {% endif %}
+    {% if error|length > 0 %}
+        <div class="alert alert-danger" role="alert">{{error}}</div>
+    {% endif %}
+</div>

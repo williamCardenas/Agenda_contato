@@ -3,6 +3,8 @@
         <div class="alert alert-success" role="alert">{{sucess}}</div>
     {% endif %}
     {% if error|length > 0 %}
-        <div class="alert alert-danger" role="alert">{{error}}</div>
+        {% for message in error %}
+        <div class="alert alert-danger" role="alert">{{message}}</div>
+        {% endfor %}
     {% endif %}
 </div>

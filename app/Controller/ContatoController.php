@@ -24,14 +24,28 @@ class ContatoController extends Controller{
     }
 
     function save(){
+        $error;
         $contato = ContatoService::createContato(
             $this->request->request->get('nome'),
             $this->request->request->get('email'),
             $this->request->request->get('emailTipo'),
             $this->request->request->get('telefone'),
-            $this->request->request->get('telefoneTipo')
+            $this->request->request->get('telefoneTipo'),
+            $error
         );
+
+        if(empty($contato)){
+            $emailTipo = ContatoEmailTipo::all();
+            $telefoneTipo = ContatoTelefoneTipo::all();
+            return $this->view->render('contato_novo.html',['emailTipo'=>$emailTipo,'telefoneTipo'=>$telefoneTipo,'error'=>$error]);
+        }
+
         $contato->save();
+        if($error->count()>0){
+            $emailTipo = ContatoEmailTipo::all();
+            $telefoneTipo = ContatoTelefoneTipo::all();
+            return $this->view->render('contato_edit.html',['contato'=>$contato,'emailTipo'=>$emailTipo,'telefoneTipo'=>$telefoneTipo,'error'=>$error]);
+        }
         return $this->view->render('contato_lista.html',['sucess'=>'Contato salvo com sucesso']);
     }
 }

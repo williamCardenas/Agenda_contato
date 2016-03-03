@@ -3,13 +3,23 @@ namespace App\Services;
 use App\Model\Contato;
 use Illuminate\Database\Eloquent\Collection;
 use App\Exceptions\DuplicateException;
+use App\Exceptions\OnlyNumberException;
+use App\Exceptions\LengthException;
 
 class ContatoService{
     static $perPage = 10;
 
-    public static function createContato($nome, Array $email,Array $emailTipo, Array $telefone,Array $telefoneTipo){
+    public static function createContato($nome, Array $email,Array $emailTipo, Array $telefone,Array $telefoneTipo,&$error=null){
+        $error = new Collection();
+        try{
+            if(!strlen($nome)>0){
+                throw new LengthException("O nome deve ser preenchido");
+            }
+        } catch(LengthException $e){
+            $error->push($e->getMessage());
+            return null;
+        }
         $contato = Contato::create(['nome'=>$nome]);
-        $invaliEmail = new Collection();
         $index = 0;
         if(count($email)>0 and $email[0]!=''){
             foreach($email as $em){
@@ -18,7 +28,7 @@ class ContatoService{
                     $contato->contatoEmail->push($email);
                 } catch(DuplicateException $e)
                 {
-                    $invaliEmail->push($email);
+                    $error->push($e->getMessage());
                 }
                 $index++;
             }
@@ -32,11 +42,18 @@ class ContatoService{
                     $contato->contatoTelefone->push($telefone);
                 } catch(DuplicateException $e)
                 {
-                    $invaliEmail->push($email);
+                    $error->push($e->getMessage());
+                } catch(OnlyNumberException $e)
+                {
+                    $error->push($e->getMessage());
+                } catch(LengthException $e)
+                {
+                    $error->push($e->getMessage());
                 }
                 $index++;
             }
         }
+
 
         return $contato;
     }

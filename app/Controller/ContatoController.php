@@ -29,6 +29,7 @@ class ContatoController extends Controller{
             $this->request->request->get('nome'),
             $this->request->request->get('email'),
             $this->request->request->get('emailTipo'),
+            $this->request->request->get('ddd'),
             $this->request->request->get('telefone'),
             $this->request->request->get('telefoneTipo'),
             $error
@@ -65,11 +66,12 @@ class ContatoController extends Controller{
         $emailId = $this->request->request->get('emailId');
         $emails = $this->request->request->get('email');
         $emailTipo = $this->request->request->get('emailTipo');
+        $ddd = $this->request->request->get('ddd');
         $telefoneId = $this->request->request->get('telefoneId');
         $telefones = $this->request->request->get('telefone');
         $telefoneTipo = $this->request->request->get('telefoneTipo');
         $error;
 
-        ContatoService::update($idContato, $nome, $emailId, $emails, $emailTipo, $telefoneId, $telefones, $telefoneTipo,$error);
+        ContatoService::update($idContato, $nome, $emailId, $emails, $emailTipo, $telefoneId, $ddd, $telefones, $telefoneTipo,$error);
     }
 }

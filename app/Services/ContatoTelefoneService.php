@@ -8,7 +8,7 @@ use App\Exceptions\LengthException;
 
 class ContatoTelefoneService{
 
-    private static function Validate($telefone,$idTipo,$telefoneId=null){
+    private static function Validate($telefone,$ddd,$idTipo,$telefoneId=null){
         if(!is_numeric($telefone)){
             throw new OnlyNumberException("O telefone deve ter apenas numeros");
         }
@@ -28,25 +28,27 @@ class ContatoTelefoneService{
         }
     }
 
-    public static function createTelefone($telefone,$idTipo,Contato $contato){
+    public static function createTelefone($telefone,$ddd,$idTipo,Contato $contato){
         if(!empty($telefone)){
 
-        self::Validate($telefone,$idTipo);
-        $telefone = ContatoTelefone::create(['telefone'=>$telefone,'id_contato_telefone_tipo'=>$idTipo,'id_contato'=>$contato->id_contato]);
+        self::Validate($telefone,$ddd,$idTipo);
+        $telefone = ContatoTelefone::create(['telefone'=>$telefone,'ddd'=>$ddd,'id_contato_telefone_tipo'=>$idTipo,'id_contato'=>$contato->id_contato]);
 
         return $telefone;
         }
         return false;
     }
 
-    public static function updateTelefone($telefoneId,$telefone,$idTipo){
+    public static function updateTelefone($telefoneId,$ddd,$telefone,$idTipo){
         self::Validate($telefone,$idTipo,$telefoneId);
         $result = ContatoTelefone::find($telefoneId);
         if(empty($result)){
             throw new NotFoundException("O telefone ".$telefone." não foi encontrado");
         }
         $result->telefone = $telefone;
+        $result->ddd = $ddd;
         $result->id_contato_telefone_tipo = $idTipo;
-        return $result->save();
+        $response = $result->save();
+        return $response;
     }
 }

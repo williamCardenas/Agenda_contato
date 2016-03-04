@@ -93,7 +93,7 @@ $('.get_contato').click(function(){
 
         console.log(data.contato_telefone);
 
-        var newLine = function(table_class,col1,col2){
+        var newLine = function(table_class,col1,col2,col3){
             var table = $(table_class);
             var tr,td,p;
             tr = $('<tr></tr>');
@@ -105,6 +105,12 @@ $('.get_contato').click(function(){
             p = $('<p></p>').html(col2);
             p.appendTo(td);
             td.appendTo(tr);
+            if(col3 !== null){
+                td = $('<td></td>');
+                p = $('<p></p>').html(col3);
+                p.appendTo(td);
+                td.appendTo(tr);
+            }
             tr.appendTo(table);
         }
         $('.table_email').children('tbody').html('');
@@ -112,11 +118,11 @@ $('.get_contato').click(function(){
         var email,telefone;
         for(i=0;i<data.contato_email.length;i++){
             email = data.contato_email[i];
-            newLine('.table_email',email.email,email.tipo.nome)
+            newLine('.table_email',email.email,email.tipo.nome,null);
         }
         for(i=0;i<data.contato_telefone.length;i++){
             telefone = data.contato_telefone[i];
-            newLine('.table_telefone',telefone.telefone,telefone.tipo.nome)
+            newLine('.table_telefone',telefone.ddd,telefone.telefone,telefone.tipo.nome)
         }
     });
 });

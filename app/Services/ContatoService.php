@@ -10,7 +10,7 @@ use App\Exceptions\NotFoundException;
 class ContatoService{
     static $perPage = 10;
 
-    public static function createContato($nome, Array $email,Array $emailTipo, Array $telefone,Array $telefoneTipo,&$error=null){
+    public static function createContato($nome, Array $email,Array $emailTipo, Array $ddd,Array $telefone,Array $telefoneTipo,&$error=null){
         $error = new Collection();
         try{
             if(!strlen($nome)>0){
@@ -38,10 +38,10 @@ class ContatoService{
         }
 
         $index = 0;
-        if(count($telefone)>0 and $telefone[0]!=''){
+        if(count($telefone)>0){
             foreach($telefone as $tel){
                 try{
-                    $telefone = ContatoTelefoneService::createTelefone($tel,$telefoneTipo[$index],$contato);
+                    $telefone = ContatoTelefoneService::createTelefone($tel,$ddd[$index],$telefoneTipo[$index],$contato);
                     if($telefone){
                         $contato->contatoTelefone->push($telefone);
                     }
@@ -62,7 +62,7 @@ class ContatoService{
         return $contato;
     }
 
-    public function update($contatoId, $nome, Array $emailId, Array $email, Array $emailTipo, Array $telefoneId, Array $telefone,Array $telefoneTipo,&$error=null){
+    public function update($contatoId, $nome, Array $emailId, Array $email, Array $emailTipo, Array $telefoneId,Array $ddd, Array $telefone,Array $telefoneTipo,&$error=null){
         $error = new Collection();
         $contato = self::getContatoById($contatoId);
         try{
@@ -74,7 +74,7 @@ class ContatoService{
             }
             $count = 0;
             foreach($telefoneId as $id){
-                ContatoTelefoneService::updateTelefone($id,$telefone[$count],$telefoneTipo[$count]);
+                ContatoTelefoneService::updateTelefone($id,$ddd[$count],$telefone[$count],$telefoneTipo[$count]);
                 $count++;
             }
             $contato->save();
@@ -91,7 +91,7 @@ class ContatoService{
             if(count($telefone)>count($telefoneId)){
                 $index = count($telefoneId);
                 while($index <= count($telefone)){
-                    $telefone = ContatoTelefoneService::createTelefone($telefone[$index],$telefoneTipo[$index],$contato);
+                    $telefone = ContatoTelefoneService::createTelefone($telefone[$index],$ddd[$index],$telefoneTipo[$index],$contato);
                     if($telefone){
                         $contato->contatoTelefone->push($telefone);
                     }

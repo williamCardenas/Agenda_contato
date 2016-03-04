@@ -14,8 +14,9 @@
         {% include 'messages.html' %}
 
         <div class="col-xs-12 col-sm-12 ">
-
-        {% include 'contato_form.html' with{'is_set':true} %}
+            <form method="post" action="{{url}}/contato/update/{{contato.id_contato}}">
+                {% include 'contato_form.html' with{'is_set':true} %}
+            </form>
         </div>
     </div>
 </div>

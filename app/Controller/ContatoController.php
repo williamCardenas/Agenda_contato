@@ -48,4 +48,28 @@ class ContatoController extends Controller{
         }
         return $this->view->render('contato_lista.html',['sucess'=>'Contato salvo com sucesso']);
     }
+
+    public function edit(){
+        $idContato = $this->getVar('id');
+        $contato = ContatoService::getContatoById($idContato);
+        $emailTipo = ContatoEmailTipo::all();
+        $telefoneTipo = ContatoTelefoneTipo::all();
+        $contato->load('contatoEmail');
+        $contato->load('contatoTelefone');
+        return $this->view->render('contato_edit.html',['contato'=>$contato,'emailTipo'=>$emailTipo,'telefoneTipo'=>$telefoneTipo]);
+    }
+
+    public function update(){
+        $idContato = $this->getVar('id');
+        $nome = $this->request->request->get('nome');
+        $emailId = $this->request->request->get('emailId');
+        $emails = $this->request->request->get('email');
+        $emailTipo = $this->request->request->get('emailTipo');
+        $telefoneId = $this->request->request->get('telefoneId');
+        $telefones = $this->request->request->get('telefone');
+        $telefoneTipo = $this->request->request->get('telefoneTipo');
+        $error;
+
+        ContatoService::update($idContato, $nome, $emailId, $emails, $emailTipo, $telefoneId, $telefones, $telefoneTipo,$error);
+    }
 }

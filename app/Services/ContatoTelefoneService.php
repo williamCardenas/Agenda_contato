@@ -40,7 +40,7 @@ class ContatoTelefoneService{
     }
 
     public static function updateTelefone($telefoneId,$ddd,$telefone,$idTipo){
-        self::Validate($telefone,$idTipo,$telefoneId);
+        self::Validate($telefone,$ddd,$idTipo,$telefoneId);
         $result = ContatoTelefone::find($telefoneId);
         if(empty($result)){
             throw new NotFoundException("O telefone ".$telefone." não foi encontrado");

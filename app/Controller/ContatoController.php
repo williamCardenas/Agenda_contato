@@ -62,16 +62,29 @@ class ContatoController extends Controller{
 
     public function update(){
         $idContato = $this->getVar('id');
-        $nome = $this->request->request->get('nome');
-        $emailId = $this->request->request->get('emailId');
-        $emails = $this->request->request->get('email');
-        $emailTipo = $this->request->request->get('emailTipo');
-        $ddd = $this->request->request->get('ddd');
-        $telefoneId = $this->request->request->get('telefoneId');
-        $telefones = $this->request->request->get('telefone');
-        $telefoneTipo = $this->request->request->get('telefoneTipo');
+        $nome = !empty($this->request->request->get('nome'))? $this->request->request->get('nome') :'';
+        $emailId = !empty($this->request->request->get('emailId'))? $this->request->request->get('emailId') :array();
+        $emails = !empty($this->request->request->get('email'))? $this->request->request->get('email') :array();
+        $emailTipo = !empty($this->request->request->get('emailTipo'))? $this->request->request->get('emailTipo') :array();
+        $ddd = !empty($this->request->request->get('ddd'))? $this->request->request->get('ddd') :array();
+        $telefoneId = !empty($this->request->request->get('telefoneId'))? $this->request->request->get('telefoneId') :array();
+        $telefones = !empty($this->request->request->get('telefone'))? $this->request->request->get('telefone') :array();
+        $telefoneTipo = !empty($this->request->request->get('telefoneTipo'))? $this->request->request->get('telefoneTipo') :array();
         $error;
 
         ContatoService::update($idContato, $nome, $emailId, $emails, $emailTipo, $telefoneId, $ddd, $telefones, $telefoneTipo,$error);
+
+        $contato = ContatoService::getContatoById($idContato);
+        $emailTipo = ContatoEmailTipo::all();
+        $telefoneTipo = ContatoTelefoneTipo::all();
+        $contato->load('contatoEmail');
+        $contato->load('contatoTelefone');
+
+        if($error->count()>0){
+            $emailTipo = ContatoEmailTipo::all();
+            $telefoneTipo = ContatoTelefoneTipo::all();
+            return $this->view->render('contato_edit.html',['contato'=>$contato,'emailTipo'=>$emailTipo,'telefoneTipo'=>$telefoneTipo,'error'=>$error]);
+        }
+        return $this->view->render('contato_lista.html',['sucess'=>'Contato salvo com sucesso']);
     }
 }

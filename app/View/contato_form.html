@@ -11,7 +11,7 @@
     <h4 id="nome"></h4>
     {% endif %}
 </div>
-<div class="form-group">
+<div class="form-group special-margin">
     <label for="Name">Emails
         {% if is_set is defined %}
         <button type="button" class="btn btn-success add_email"> adicionar email </button>
@@ -84,7 +84,7 @@
     </div>
 </div>
 
-<div class="form-group">
+<div class="form-group special-margin">
     <label for="Name">Telefone
         {% if is_set is defined %}
         <button type="button" class="btn btn-success add_telefone"> adicionar Telefone </button>
@@ -108,13 +108,13 @@
                 <tr>
                     <td>
                         {% if is_set is defined %}
-                        <input type="text" name="ddd[]" value="{{telefone.ddd}}"/>
+                        <input type="number" maxlength="2" name="ddd[]" value="{{telefone.ddd}}"/>
                         <input type="hidden" name="telefoneId[]" value="{{telefone.id_contato_telefone}}"/>
                         {% endif %}
                     </td>
                     <td>
                         {% if is_set is defined %}
-                        <input type="text" name="telefone[]" value="{{telefone.telefone}}"/>
+                        <input type="number" maxlength="9" name="telefone[]" value="{{telefone.telefone}}"/>
                         {% endif %}
                     </td>
                     <td>
@@ -172,3 +172,16 @@
 <a class="btn btn-default" href="{{url}}/contato/lista">Voltar</a>
 <button type="submit" class="btn btn-primary">Submit</button>
 {% endif %}
+
+{% block css %}
+<style>
+.special-margin{margin-top: 20px;margin-bottom: 5px}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+</style>
+{% endblock %}

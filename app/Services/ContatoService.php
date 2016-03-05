@@ -82,9 +82,13 @@ class ContatoService{
             if(count($email)>count($emailId)){
                 $index = count($emailId);
                 while($index < count($email)){
-                    $em = ContatoEmailService::createEmail($email[$index],$emailTipo[$index],$contato);
-                    if($em){
-                        $contato->contatoEmail->push($em);
+                    try{
+                        $em = ContatoEmailService::createEmail($email[$index],$emailTipo[$index],$contato);
+                        if($em){
+                            $contato->contatoEmail->push($em);
+                        }
+                    } catch(DuplicateException $e){
+                        $error->push($e->getMessage());
                     }
                     $index++;
                 }
@@ -96,9 +100,13 @@ class ContatoService{
                         $index++;
                         continue;
                     }
-                    $tel = ContatoTelefoneService::createTelefone($telefone[$index],$ddd[$index],$telefoneTipo[$index],$contato);
-                    if($tel){
-                        $contato->contatoTelefone->push($tel);
+                    try{
+                        $tel = ContatoTelefoneService::createTelefone($telefone[$index],$ddd[$index],$telefoneTipo[$index],$contato);
+                        if($tel){
+                            $contato->contatoTelefone->push($tel);
+                        }
+                    } catch(DuplicateException $e){
+                        $error->push($e->getMessage());
                     }
                     $index++;
                 }

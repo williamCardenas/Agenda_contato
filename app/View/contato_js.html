@@ -19,6 +19,9 @@ $('.add_email').click(function(){
     select.appendTo(td);
     td.appendTo(tr);
 
+    var td = $('<td></td>');
+    td.appendTo(tr);
+
     tr.appendTo(table);
 });
 $('.add_telefone').click(function(){
@@ -44,6 +47,9 @@ $('.add_telefone').click(function(){
     {% endfor %}
     var td = $('<td></td>');
     select.appendTo(td);
+    td.appendTo(tr);
+
+    var td = $('<td></td>');
     td.appendTo(tr);
 
     tr.appendTo(table);

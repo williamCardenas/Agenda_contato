@@ -1,23 +1,23 @@
 
-    <div class="form-group">
-        <label for="exampleInputEmail1">Nome</label>
+<div class="form-group">
+    <label for="exampleInputEmail1">Nome</label>
+    {% if is_set is defined %}
+    <input type="text" name="nome" class="form-control" id="exampleInputEmail1"
+    {% if contato is defined %}
+    value="{{contato.nome}}"
+    {% endif %}
+    >
+    {% else %}
+    <h4 id="nome"></h4>
+    {% endif %}
+</div>
+<div class="form-group">
+    <label for="Name">Emails
         {% if is_set is defined %}
-        <input type="text" name="nome" class="form-control" id="exampleInputEmail1"
-        {% if contato is defined %}
-        value="{{contato.nome}}"
+        <button type="button" class="btn btn-success add_email"> adicionar email </button>
         {% endif %}
-        >
-        {% else %}
-        <h4 id="nome"></h4>
-        {% endif %}
-    </div>
-    <div class="form-group">
-        <label for="Name">Emails
-            {% if is_set is defined %}
-            <button type="button" class="btn btn-success add_email"> adicionar email </button>
-            {% endif %}
-        </label>
-        <div class="table-responsive">
+    </label>
+    <div class="table-responsive">
         <table class="table table-striped table_email">
             <thead>
                 <tr>
@@ -30,32 +30,36 @@
             </thead>
             <tbody>
                 {% if contato is defined %}
-                    {% for email in contato.contatoEmail  %}
-                    <tr>
-                        <td>
-                            {% if is_set is defined %}
-                            <input type="email" name="email[]" value="{{email.email}}"/>
-                            <input type="hidden" name="emailId[]" value="{{email.id_contato_email}}"/>
+                {% for email in contato.contatoEmail  %}
+                <tr>
+                    <td>
+                        {% if is_set is defined %}
+                        <input type="email" name="email[]" value="{{email.email}}"/>
+                        <input type="hidden" name="emailId[]" value="{{email.id_contato_email}}"/>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if is_set is defined %}
+                        <select name="emailTipo[]" class="">
+                            <option> - </option>
+                            {% for tipo in emailTipo %}
+                            {% if tipo.id_contato_email_tipo == email.id_contato_email_tipo %}
+                            {% set selected = 'selected'  %}
+                            {% else %}
+                            {% set selected = ''  %}
                             {% endif %}
-                        </td>
-                        <td>
-                            {% if is_set is defined %}
-                            <select name="emailTipo[]" class="">
-                                <option> - </option>
-                                {% for tipo in emailTipo %}
-                                    {% if tipo.id_contato_email_tipo == email.id_contato_email_tipo %}
-                                    {% set selected = 'selected'  %}
-                                    {% else %}
-                                    {% set selected = ''  %}
-                                    {% endif %}
-                                    <option value="{{tipo.id_contato_email_tipo}}" {{selected}}>{{tipo.nome}}</option>
-                                {% endfor %}
-                            </select>
-                            {% endif %}
-                        </td>
-                        <td></td>
-                    </tr>
-                    {% endfor %}
+                            <option value="{{tipo.id_contato_email_tipo}}" {{selected}}>{{tipo.nome}}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger delete_email" id="{{email.id_contato_email}}" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
                 {% endif %}
                 <tr>
                     <td>
@@ -68,7 +72,7 @@
                         <select name="emailTipo[]" class="">
                             <option> - </option>
                             {% for tipo in emailTipo %}
-                                <option value="{{tipo.id_contato_email_tipo}}">{{tipo.nome}}</option>
+                            <option value="{{tipo.id_contato_email_tipo}}">{{tipo.nome}}</option>
                             {% endfor %}
                         </select>
                         {% endif %}
@@ -77,90 +81,94 @@
                 </tr>
             </tbody>
         </table>
-        </div>
     </div>
+</div>
 
-    <div class="form-group">
-        <label for="Name">Telefone
-            {% if is_set is defined %}
-            <button type="button" class="btn btn-success add_telefone"> adicionar Telefone </button>
-            {% endif %}
-        </label>
-        <div class="table-responsive">
+<div class="form-group">
+    <label for="Name">Telefone
+        {% if is_set is defined %}
+        <button type="button" class="btn btn-success add_telefone"> adicionar Telefone </button>
+        {% endif %}
+    </label>
+    <div class="table-responsive">
         <table class="table table-striped table_telefone">
             <thead>
-            <tr>
-                <th>DDD</th>
-                <th>Telefone</th>
-                <th>Tipo</th>
-                {% if is_set is defined %}
-                <th>ação</th>
-                {% endif %}
-            </tr>
+                <tr>
+                    <th>DDD</th>
+                    <th>Telefone</th>
+                    <th>Tipo</th>
+                    {% if is_set is defined %}
+                    <th>ação</th>
+                    {% endif %}
+                </tr>
             </thead>
             <tbody>
                 {% if contato is defined %}
-                    {% for telefone in contato.contatoTelefone  %}
-                    <tr>
-                        <td>
-                            {% if is_set is defined %}
-                            <input type="text" name="ddd[]" value="{{telefone.ddd}}"/>
-                            <input type="hidden" name="telefoneId[]" value="{{telefone.id_contato_telefone}}"/>
+                {% for telefone in contato.contatoTelefone  %}
+                <tr>
+                    <td>
+                        {% if is_set is defined %}
+                        <input type="text" name="ddd[]" value="{{telefone.ddd}}"/>
+                        <input type="hidden" name="telefoneId[]" value="{{telefone.id_contato_telefone}}"/>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if is_set is defined %}
+                        <input type="text" name="telefone[]" value="{{telefone.telefone}}"/>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if is_set is defined %}
+                        <select name="telefoneTipo[]" class="">
+                            <option> - </option>
+                            {% for tipo in telefoneTipo %}
+                            {% if tipo.id_contato_telefone_tipo == telefone.id_contato_telefone_tipo %}
+                            {% set selected = 'selected'  %}
+                            {% else %}
+                            {% set selected = ''  %}
                             {% endif %}
-                        </td>
-                        <td>
-                            {% if is_set is defined %}
-                            <input type="text" name="telefone[]" value="{{telefone.telefone}}"/>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if is_set is defined %}
-                            <select name="telefoneTipo[]" class="">
-                                <option> - </option>
-                                {% for tipo in telefoneTipo %}
-                                    {% if tipo.id_contato_telefone_tipo == telefone.id_contato_telefone_tipo %}
-                                    {% set selected = 'selected'  %}
-                                    {% else %}
-                                    {% set selected = ''  %}
-                                    {% endif %}
-                                    <option value="{{tipo.id_contato_telefone_tipo}}" {{selected}}>{{tipo.nome}}</option>
-                                {% endfor %}
-                            </select>
-                            {% endif %}
-                        </td>
-                        <td></td>
-                    </tr>
-                    {% endfor %}
+                            <option value="{{tipo.id_contato_telefone_tipo}}" {{selected}}>{{tipo.nome}}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger delete_telefone" id="{{telefone.id_contato_telefone}}" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
                 {% endif %}
-            <tr>
-                <td>
-                    {% if is_set is defined %}
+                <tr>
+                    <td>
+                        {% if is_set is defined %}
                         <input type="text" name="ddd[]" />
-                    {% endif %}
-                </td>
-                <td>
-                    {% if is_set is defined %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if is_set is defined %}
                         <input type="text" name="telefone[]" />
-                    {% endif %}
-                </td>
-                <td>
-                    {% if is_set is defined %}
-                    <select name="telefoneTipo[]" class="">
-                        <option> - </option>
-                        {% for tipo in telefoneTipo %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if is_set is defined %}
+                        <select name="telefoneTipo[]" class="">
+                            <option> - </option>
+                            {% for tipo in telefoneTipo %}
                             <option value="{{tipo.id_contato_telefone_tipo}}">{{tipo.nome}}</option>
-                        {% endfor %}
-                    </select>
-                    {% endif %}
-                </td>
-                <td></td>
-            </tr>
-        </tbody>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
         </table>
-        </div>
     </div>
+</div>
 
-    {% if is_set is defined %}
-    <a class="btn btn-default" href="{{url}}/contato/lista">Voltar</a>
-    <button type="submit" class="btn btn-primary">Submit</button>
-    {% endif %}
+{% if is_set is defined %}
+<a class="btn btn-default" href="{{url}}/contato/lista">Voltar</a>
+<button type="submit" class="btn btn-primary">Submit</button>
+{% endif %}

@@ -32,4 +32,18 @@ class ContatoEmailService{
         $result->id_contato_email_tipo = $idTipo;
         return $result->save();
     }
+
+    public static function getEmailById($id){
+        $contato = ContatoEmail::find($id);
+        return $contato;
+    }
+
+    public static function deleteEmail($id){
+        $email = self::getEmailById($id);
+        if($email){
+            $email->delete();
+            return true;
+        }
+        return false;
+    }
 }

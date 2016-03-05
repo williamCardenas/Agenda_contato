@@ -51,4 +51,13 @@ class ContatoTelefoneService{
         $response = $result->save();
         return $response;
     }
+
+    public static function deleteTelefone($id){
+        $telefone =  ContatoTelefone::find($id);
+        if($telefone){
+            $telefone->delete();
+            return true;
+        }
+        return false;
+    }
 }

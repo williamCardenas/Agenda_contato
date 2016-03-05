@@ -48,4 +48,39 @@ $('.add_telefone').click(function(){
 
     tr.appendTo(table);
 });
+
+$('.delete_email').click(function(){
+    var data = {id:this.id};
+    var id = data.id;
+    $.ajax({
+         url: "{{url}}/api/contato/email/delete",
+         data: data,
+         method: "POST",
+
+    }).done(function(data){
+        if(data.status == true){
+            $('#'+id+'.delete_email').parent().parent().remove();
+        }else{
+            alert('algo deu errado, tente recarregar a pagina e tentar novamente');
+        }
+    }).fail(function(){alert('algo deu errado, tente recarregar a pagina e tentar novamente');});
+});
+
+$('.delete_telefone').click(function(){
+    var data = {id:this.id};
+    var id = data.id;
+    $.ajax({
+         url: "{{url}}/api/contato/telefone/delete",
+         data: data,
+         method: "POST",
+
+    }).done(function(data){
+        if(data.status == true){
+            $('#'+id+'.delete_telefone').parent().parent().remove();
+        }else{
+            alert('algo deu errado, tente recarregar a pagina e tentar novamente');
+        }
+    }).fail(function(){alert('algo deu errado, tente recarregar a pagina e tentar novamente');});
+});
+
 </script>

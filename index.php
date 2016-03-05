@@ -24,12 +24,16 @@ try {
     $method = !empty($arr[1])?$arr[1]:'index';
     $instanceController = new $class($request,$twig,$matcher);
     $view = $instanceController->$method();
-    
+
     $response = new Response($view,
     Response::HTTP_OK,
     array('content-type' => 'text/html'));
 } catch (Routing\Exception\ResourceNotFoundException $e) {
     $response = new Response('Not Found', 404);
+} catch (UnexpectedValueException $e){
+    $response = new Response('Not Found', 200);
+    $response->setContent(json_encode($view));
+    $response->headers->set('Content-Type', 'application/json');
 } catch (Exception $e) {
     var_dump($e);
     $response = new Response('An error occurred', 500);

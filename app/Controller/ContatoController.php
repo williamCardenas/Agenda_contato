@@ -47,7 +47,7 @@ class ContatoController extends Controller{
             $telefoneTipo = ContatoTelefoneTipo::all();
             return $this->view->render('contato_edit.html',['contato'=>$contato,'emailTipo'=>$emailTipo,'telefoneTipo'=>$telefoneTipo,'error'=>$error]);
         }
-        return $this->view->render('contato_lista.html',['sucess'=>'Contato salvo com sucesso']);
+        return $this->view->render('contato_edit.html',['contato'=>$contato,'emailTipo'=>$emailTipo,'telefoneTipo'=>$telefoneTipo,'sucess'=>'Contato salvo com sucesso']);
     }
 
     public function edit(){
@@ -81,10 +81,8 @@ class ContatoController extends Controller{
         $contato->load('contatoTelefone');
 
         if($error->count()>0){
-            $emailTipo = ContatoEmailTipo::all();
-            $telefoneTipo = ContatoTelefoneTipo::all();
             return $this->view->render('contato_edit.html',['contato'=>$contato,'emailTipo'=>$emailTipo,'telefoneTipo'=>$telefoneTipo,'error'=>$error]);
         }
-        return $this->view->render('contato_lista.html',['sucess'=>'Contato salvo com sucesso']);
+        return $this->view->render('contato_edit.html',['contato'=>$contato,'emailTipo'=>$emailTipo,'telefoneTipo'=>$telefoneTipo,'sucess'=>'Contato salvo com sucesso']);
     }
 }

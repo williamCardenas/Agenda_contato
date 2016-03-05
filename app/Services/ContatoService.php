@@ -91,9 +91,13 @@ class ContatoService{
             if(count($telefone)>count($telefoneId)){
                 $index = count($telefoneId);
                 while($index <= count($telefone)){
-                    $telefone = ContatoTelefoneService::createTelefone($telefone[$index],$ddd[$index],$telefoneTipo[$index],$contato);
-                    if($telefone){
-                        $contato->contatoTelefone->push($telefone);
+                    if(empty($telefone[$index])){
+                        $index++;
+                        continue;
+                    }
+                    $tel = ContatoTelefoneService::createTelefone($telefone[$index],$ddd[$index],$telefoneTipo[$index],$contato);
+                    if($tel){
+                        $contato->contatoTelefone->push($tel);
                     }
                     $index++;
                 }

@@ -134,8 +134,24 @@ class ContatoService{
     public static function getContatoById($id){
         $contato = Contato::find($id);
         if(empty($contato)){
-            throw new NotFoundException("contato not found");
+            throw new NotFoundException("contato não encontrado");
         }
+        $contato->load('contatoEmail');
+        $contato->load('contatoTelefone');
         return $contato;
+    }
+
+    public static function deleteContatoById($id){
+        $contato = self::getContatoById($id);
+        if(empty($contato)){
+            throw new NotFoundException("contato não encontrado");
+        }
+        foreach($contato->contatoEmail as $email){
+            $email->delete();
+        }
+        foreach($contato->contatoTelefone as $telefone){
+            $telefone->delete();
+        }
+        $contato->delete();
     }
 }

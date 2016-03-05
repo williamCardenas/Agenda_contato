@@ -17,6 +17,7 @@ $routes->add('contato/novo', new Route('/contato/novo',['controller'=>'ContatoCo
 $routes->add('contato/save', new Route('/contato/save',['controller'=>'ContatoController@save']));
 $routes->add('contato/edita', new Route('/contato/editar/{id}',['controller'=>'ContatoController@edit']));
 $routes->add('contato/update', new Route('/contato/update/{id}',['controller'=>'ContatoController@update']));
+$routes->add('contato/deleta', new Route('/contato/deletar/{id}',['controller'=>'ContatoController@delete']));
 
 $routes->add('contato/detalhe', new Route('/api/contato/detalhe',['controller'=>'ApiContatoController@contatoDetail']));
 

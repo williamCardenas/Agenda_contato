@@ -6,6 +6,8 @@ use App\Model\Contato;
 use App\Model\ContatoEmailTipo;
 use App\Model\ContatoTelefoneTipo;
 
+use App\Exceptions\NotFoundException;
+
 class ContatoController extends Controller{
 
     function list(){
@@ -47,7 +49,7 @@ class ContatoController extends Controller{
             $telefoneTipo = ContatoTelefoneTipo::all();
             return $this->view->render('contato_edit.html',['contato'=>$contato,'emailTipo'=>$emailTipo,'telefoneTipo'=>$telefoneTipo,'error'=>$error]);
         }
-        return $this->view->render('contato_edit.html',['contato'=>$contato,'emailTipo'=>$emailTipo,'telefoneTipo'=>$telefoneTipo,'sucess'=>'Contato salvo com sucesso']);
+        return $this->view->render('contato_message.html',['sucess'=>'Contato salvo com sucesso']);
     }
 
     public function edit(){
@@ -55,8 +57,7 @@ class ContatoController extends Controller{
         $contato = ContatoService::getContatoById($idContato);
         $emailTipo = ContatoEmailTipo::all();
         $telefoneTipo = ContatoTelefoneTipo::all();
-        $contato->load('contatoEmail');
-        $contato->load('contatoTelefone');
+
         return $this->view->render('contato_edit.html',['contato'=>$contato,'emailTipo'=>$emailTipo,'telefoneTipo'=>$telefoneTipo]);
     }
 
@@ -77,12 +78,21 @@ class ContatoController extends Controller{
         $contato = ContatoService::getContatoById($idContato);
         $emailTipo = ContatoEmailTipo::all();
         $telefoneTipo = ContatoTelefoneTipo::all();
-        $contato->load('contatoEmail');
-        $contato->load('contatoTelefone');
 
         if($error->count()>0){
             return $this->view->render('contato_edit.html',['contato'=>$contato,'emailTipo'=>$emailTipo,'telefoneTipo'=>$telefoneTipo,'error'=>$error]);
         }
-        return $this->view->render('contato_edit.html',['contato'=>$contato,'emailTipo'=>$emailTipo,'telefoneTipo'=>$telefoneTipo,'sucess'=>'Contato salvo com sucesso']);
+        return $this->view->render('contato_message.html',['sucess'=>'Contato salvo com sucesso']);
+    }
+
+    public function delete(){
+        try {
+            $idContato = $this->getVar('id');
+            $contato = ContatoService::deleteContatoById($idContato);
+            return $this->view->render('contato_message.html',['sucess'=>'Contato deletado com sucesso']);
+        } catch (NotFoundException $e) {
+            return $this->view->render('contato_message.html',['error'=>[$e->getMessage()]]);
+        }
+
     }
 }

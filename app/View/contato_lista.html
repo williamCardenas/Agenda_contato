@@ -69,6 +69,7 @@
       </div>
       <div class="modal-footer">
         <a type="button" href="" class="btn btn-default " id="btn-editar">Editar</a>
+        <a type="button" href="" class="btn btn-danger " id="btn-deletar">Deletar</a>
         <button type="button" class="btn btn-primary"  data-dismiss="modal">fechar</button>
       </div>
     </div>
@@ -90,6 +91,7 @@ $('.get_contato').click(function(){
         data = JSON.parse(data);
         $('#nome').html(data.nome);
         $('#btn-editar').attr('href','{{url}}/contato/editar/'+data.id_contato);
+        $('#btn-deletar').attr('href','{{url}}/contato/deletar/'+data.id_contato);
 
         console.log(data.contato_telefone);
 

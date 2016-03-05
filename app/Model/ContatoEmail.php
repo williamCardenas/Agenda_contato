@@ -8,9 +8,9 @@ class  ContatoEmail extends Model{
     protected $primaryKey = 'id_contato_email';
     protected $fillable = [
         'email',
-        'id_contato'
+        'id_contato',
+        'id_contato_email_tipo'
     ];
-    protected $guarded = ['id_contato_email_tipo'];
     public $timestamps = false;
 
     public function tipo(){

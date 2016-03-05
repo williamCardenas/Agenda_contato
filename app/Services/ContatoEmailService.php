@@ -17,6 +17,8 @@ class ContatoEmailService{
                 throw new DuplicateException('O Email '.$email.' já foi cadastrado');
             }
             $email = ContatoEmail::create(['email'=>$email,'id_contato_email_tipo'=>$idTipo,'id_contato'=>$contato->id_contato]);
+            var_dump($email);
+            exit;
 
             return $email;
         }

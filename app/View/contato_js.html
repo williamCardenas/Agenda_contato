@@ -25,6 +25,11 @@ $('.add_telefone').click(function(){
     var table = $('.table_telefone');
     var tr = $('<tr></tr>');
 
+    var input = $('<input></input>').attr('name','ddd[]');
+    var td = $('<td></td>');
+    input.appendTo(td);
+    td.appendTo(tr);
+
     var input = $('<input></input>').attr('name','telefone[]');
     var td = $('<td></td>');
     input.appendTo(td);

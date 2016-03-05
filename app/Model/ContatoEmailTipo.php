@@ -7,7 +7,7 @@ class  ContatoEmailTipo extends Model{
         protected $table = 'contato_email_tipo';
         protected $primaryKey = 'id_contato_email_tipo';
         protected $fillable = [
-            'nome'
+            'nome','id_contato_email_tipo'
         ];
         public $timestamps = false;
 

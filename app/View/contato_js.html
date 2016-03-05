@@ -12,7 +12,7 @@ $('.add_email').click(function(){
     var option = $('<option> - </option>');
     option.appendTo(select);
     {% for tipo in emailTipo %}
-        var option = $('<option></option>').attr('value','{{tipo.id_contato_telefone_tipo}}').html('{{tipo.nome}}');
+        var option = $('<option></option>').val('{{tipo.id_contato_email_tipo}}').html('{{tipo.nome}}');
         option.appendTo(select);
     {% endfor %}
     var td = $('<td></td>');

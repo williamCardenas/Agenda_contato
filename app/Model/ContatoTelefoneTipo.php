@@ -7,7 +7,7 @@ class  ContatoTelefoneTipo extends Model{
         protected $table = 'contato_telefone_tipo';
         protected $primaryKey = 'id_contato_telefone_tipo';
         protected $fillable = [
-            'nome'
+            'nome','id_contato_telefone_tipo'
         ];
         public $timestamps = false;
 

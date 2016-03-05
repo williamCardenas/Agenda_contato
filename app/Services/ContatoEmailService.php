@@ -11,7 +11,6 @@ class ContatoEmailService{
 
     public static function createEmail($email,$idTipo,Contato $contato){
         if(!empty($email)){
-
             $result = ContatoEmail::where('email','=',$email)->count();
             if($result >0){
                 throw new DuplicateException('O Email '.$email.' já foi cadastrado');

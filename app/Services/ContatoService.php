@@ -6,6 +6,7 @@ use App\Exceptions\DuplicateException;
 use App\Exceptions\OnlyNumberException;
 use App\Exceptions\LengthException;
 use App\Exceptions\NotFoundException;
+use Exception;
 
 class ContatoService{
     static $perPage = 10;
@@ -80,10 +81,10 @@ class ContatoService{
             $contato->save();
             if(count($email)>count($emailId)){
                 $index = count($emailId);
-                while($index <= count($email)){
-                    $email = ContatoEmailService::createEmail($email[$index],$emailTipo[$index],$contato);
-                    if($email){
-                        $contato->contatoEmail->push($email);
+                while($index < count($email)){
+                    $em = ContatoEmailService::createEmail($email[$index],$emailTipo[$index],$contato);
+                    if($em){
+                        $contato->contatoEmail->push($em);
                     }
                     $index++;
                 }
